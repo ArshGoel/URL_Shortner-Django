@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}URL Shortner{% endblock title %}
+{% block content %}
+<!-- <div>
+    {% if request.user.is_authenticated %}
+    <h1>{{request.user}}</h1>
+{% else %}
+    <h1>Hello</h1>
+{% endif %}
+</div> -->
+<div class="" style="background-color: gainsboro; padding-top: 10rem ;padding-bottom: 9rem; height: 40rem;">
+    <div class="row align-items-center">
+        <div class="col-md-6 text-center">
+            <div style="font-size: 100px">URL Shortner</div>
+        </div>
+        <div class="col-md-6 text-center">
+            <h2>
+                Short Your URL here <br class="my-3"> with <br class="my-5">
+                <span class="badge bg-danger rounded-pill">Zero Ads </span>
+                <span class="badge bg-primay rounded-pill">Free Account</span>
+                <span class="badge bg-success rounded-pill">HIgh Security</span>
+            </h2>
+        </div>
+    </div>
+</div>
+{% endblock content %}

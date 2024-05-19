@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Url Shortner{% endblock title %}
+{% block content %}
+<section style="background-color: gainsboro;padding-top: 5rem;padding-bottom: 5rem;">
+    <div class="container card shadow col-md-7">
+        <form class="row mt-3" method="POST">
+            {% csrf_token %}
+            <div class="col-md-7">
+                <input type="text" class="form-control" id="staticUrl" name="URL" placeholder="Paste URL" value="{{url}}">
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" placeholder="Alias" name="alias" value="{{alias}}">
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary mb-3">Short Url</button>
+            </div>
+        </form>
+    </div>
+    <div class="container card shadow col-md-7 mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">URl</th>
+                    <th scope="col">Shorted URL</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for url in request.user.url_set.all %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>
+                        <input type="text" value="{{url.target_url}}" class="form-control" title="{{url.target_url}}">
+                    </td>
+                    <td class="d-flex align-items-center">
+                        <span>
+                            <input type="text" id="shorted-{{url.id}}" value="{{domain}}/{{url.alias}}" class="form-control"
+                                title="{{domain}}/{{url.alias}}" readonly>
+                        </span>
+                        <button class="btn p-0" onclick="copyText(`{{url.id}}`)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-copy ml-2" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                            </svg>
+                        </button>
+                    </td>
+                    <td>{{url.timestamp}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+<script>
+    function copyText(id){
+        var inputTag = document.getElementById(`shorted-${id}`)
+        inputTag.select()
+        document.execCommand("copy")
+    }
+</script>
+{% endblock content %}

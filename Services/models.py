@@ -7,7 +7,8 @@ class Url(models.Model):
     user = models.ForeignKey(User,on_delete = models.CASCADE)
     target_url = models.URLField()
     alias = models.CharField(max_length = 8,unique = True)
-    timestamp = models.DateTimeField(auto_now = True)
-
+    timestamp = models.DateTimeField(auto_now_add= True)
+    clicks = models.IntegerField(default=0)
+    
     class Meta:
         ordering = ("-timestamp",)

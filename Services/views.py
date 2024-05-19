@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from Services.models import Url
 from django.contrib import messages
 import random,string
+import datetime
 from django.contrib.sites.shortcuts import get_current_site
 # from django.http import JsonResponse
 
@@ -30,6 +31,8 @@ def dashboard(request):
 def redirect_to_target_page(request,alias):
     obj = Url.objects.get(alias=alias)
     URL = obj.target_url
+    obj.clicks += 1
+    obj.save()
     return redirect(URL)
 
 def delete_url(request,url_id):
@@ -40,3 +43,17 @@ def delete_url(request,url_id):
         except Url.DoesNotExist:        
             pass
     return redirect('dashboard')
+
+def analysis(request, alias):
+    # Get the URL object for the given alias
+    obj = Url.objects.get(alias=alias)
+
+    # Get the clicks for the URL
+    clicks = obj.clicks
+
+    # Generate a random date for the graph
+    date = datetime.date(random.randint(2020, 2024), random.randint(1, 12), random.randint(1, 28))
+
+    # Render the graph template with the URL and clicks
+    return render(request, "analysis.html", {"url": obj.target_url, "clicks": clicks, "date": date})
+

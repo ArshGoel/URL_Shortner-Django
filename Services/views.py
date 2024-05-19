@@ -3,6 +3,7 @@ from Services.models import Url
 from django.contrib import messages
 import random,string
 from django.contrib.sites.shortcuts import get_current_site
+# from django.http import JsonResponse
 
 def getAlias():
     return "".join([random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(8)])
@@ -30,3 +31,12 @@ def redirect_to_target_page(request,alias):
     obj = Url.objects.get(alias=alias)
     URL = obj.target_url
     return redirect(URL)
+
+def delete_url(request,url_id):
+    if request.method == "POST":
+        try:
+            url = Url.objects.get(id=url_id,user=request.user)
+            url.delete()
+        except Url.DoesNotExist:        
+            pass
+    return redirect('dashboard')

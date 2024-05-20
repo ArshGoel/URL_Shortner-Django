@@ -32,6 +32,8 @@ def redirect_to_target_page(request,alias):
     obj = Url.objects.get(alias=alias)
     URL = obj.target_url
     obj.clicks += 1
+    obj.clicks_per_day += 1
+    obj.clicks_per_month += 1
     obj.save()
     return redirect(URL)
 
@@ -56,4 +58,3 @@ def analysis(request, alias):
 
     # Render the graph template with the URL and clicks
     return render(request, "analysis.html", {"url": obj.target_url, "clicks": clicks, "date": date})
-

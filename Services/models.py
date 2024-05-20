@@ -9,6 +9,8 @@ class Url(models.Model):
     alias = models.CharField(max_length = 8,unique = True)
     timestamp = models.DateTimeField(auto_now_add= True)
     clicks = models.IntegerField(default=0)
-    
+    clicks_per_day = models.IntegerField(default=0)
+    clicks_per_month = models.IntegerField(default=0)
+
     class Meta:
         ordering = ("-timestamp",)

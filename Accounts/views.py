@@ -26,7 +26,7 @@ def register(request):
         password = request.POST.get("password")
         email = request.POST.get("email")
         try:
-            user = User.objects.create_user(username = username , password = password)
+            user = User.objects.create_user(username = username , password = password,email = email)
             user.save()
             auth.login(request ,user)
 
@@ -34,10 +34,13 @@ def register(request):
             messages.error(request,"Username Already exists")
             return render(request,"register.html",{"username":username,"email":email}) 
             
-        messages.success(request,"Username Already exists")
+        messages.success(request,"Successfull Created")
         return redirect ("/") 
     return render (request,"register.html")
 
 def logout(request):
     auth.logout(request)
     return redirect("login")
+
+def profile(request):
+    return render(request,'profile.html')
